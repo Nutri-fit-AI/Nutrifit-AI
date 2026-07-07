@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NutriFit AI — Coach nutrition &amp; fitness intelligent</title>
+<meta name="description" content="NutriFit AI calcule vos besoins nutritionnels, vous propose des recettes et suit votre progression au quotidien.">
+
+<!-- Polices -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Feuilles de style (séparées par responsabilité) -->
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/print.css" media="print">
+<link rel="stylesheet" href="css/auth.css">
+
+<!-- Connexion Google (Google Identity Services) — ajouté pour la connexion obligatoire -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<!-- ==================================================================
+     SPRITE SVG — icônes réutilisées via <use href="#icon-xxx">
+     ================================================================== -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <g id="ico-stroke" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></g>
+
+    <symbol id="icon-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><rect x="14" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><rect x="14" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><rect x="3" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+
+    <symbol id="icon-calculator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="11" r="1"/><circle cx="16" cy="11" r="1"/><circle cx="8" cy="15" r="1"/><circle cx="12" cy="15" r="1"/><circle cx="16" cy="15" r="1"/><circle cx="8" cy="19" r="1"/><circle cx="12" cy="19" r="1"/><circle cx="16" cy="19" r="1"/></symbol>
+
+    <symbol id="icon-nutrition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4.4 0-7.5-3.5-7.5-8 0-4 2.7-6.5 5.6-6.5 1 0 1.9.4 2.4 1 .5-.6 1.4-1 2.4-1 2.9 0 5.6 2.5 5.6 6.5 0 4.5-3.1 8-7.5 8"/><path d="M12 6c0-2 1-3.5 3-4"/></symbol>
+
+    <symbol id="icon-recipes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="12.5" y1="8" x2="17" y2="8"/><line x1="12.5" y1="12" x2="17" y2="12"/><line x1="12.5" y1="16" x2="15.5" y2="16"/></symbol>
+
+    <symbol id="icon-shaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12l1 2H5z"/><path d="M6 4l1.5 17a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1L18 4"/><line x1="7.3" y1="11" x2="16.7" y2="11"/></symbol>
+
+    <symbol id="icon-tracking" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="7 12 10.5 15.5 17 8.5"/></symbol>
+
+    <symbol id="icon-progress" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="15 6 21 6 21 12"/></symbol>
+
+    <symbol id="icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="15" cy="6" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="9" cy="12" r="2" fill="currentColor" stroke="none"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="16" cy="18" r="2" fill="currentColor" stroke="none"/></symbol>
+
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></symbol>
+
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+
+    <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+
+    <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+
+    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+
+    <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+
+    <symbol id="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+
+    <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M9 7V4h6v3"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+
+    <symbol id="icon-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="8" rx="1"/><rect x="7" y="3" width="10" height="5"/><rect x="7" y="14" width="10" height="7"/></symbol>
+
+    <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><line x1="4" y1="20" x2="20" y2="20"/></symbol>
+
+    <symbol id="icon-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><polyline points="7 8 12 3 17 8"/><line x1="4" y1="20" x2="20" y2="20"/></symbol>
+
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+
+    <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
+
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+
+    <symbol id="icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.4 2.6a2 2 0 0 1 2.8 2.8L11 15.7l-4 1 1-4z"/></symbol>
+
+    <symbol id="icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="21" r="1.2" fill="currentColor" stroke="none"/><path d="M2.5 3h3l2.5 12.5h10l2-8h-13.5"/></symbol>
+
+    <symbol id="icon-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 3.5-3 5-3 9a3 3 0 0 0 6 0c0-1.6-.7-2.6-1-4 1.8 1 3 3.2 3 5.5a5 5 0 0 1-10 0C7 7.5 10 6 12 2z"/></symbol>
+
+    <symbol id="icon-droplet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s7 8.2 7 13a7 7 0 0 1-14 0c0-4.8 7-13 7-13z"/></symbol>
+
+    <symbol id="icon-wheat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="12" y1="5" x2="9" y2="7"/><line x1="12" y1="5" x2="15" y2="7"/><line x1="12" y1="10" x2="9" y2="12"/><line x1="12" y1="10" x2="15" y2="12"/><line x1="12" y1="15" x2="9" y2="17"/><line x1="12" y1="15" x2="15" y2="17"/></symbol>
+
+    <symbol id="icon-egg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a7 7 0 0 0 7-7c0-5-4-11-7-11S5 9 5 14a7 7 0 0 0 7 7z"/></symbol>
+
+    <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none"/></symbol>
+
+    <symbol id="icon-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14.5-4.6M20 12a8 8 0 0 1-14.5 4.6"/><polyline points="18.5 3 18.5 7.4 14.1 7.4"/><polyline points="5.5 21 5.5 16.6 9.9 16.6"/></symbol>
+
+    <symbol id="icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+
+    <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></symbol>
+
+    <symbol id="icon-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v4l3 2"/></symbol>
+  </defs>
+</svg>
+
+<!-- ==================================================================
+     ÉCRAN DE CONNEXION GOOGLE — obligatoire pour accéder à l'application
+     (ajouté sans modifier le reste du code existant)
+     ================================================================== -->
+<div id="authGate" class="auth-gate">
+  <div class="auth-gate__card">
+    <div class="auth-gate__logo">NF</div>
+    <h1 class="auth-gate__title">NutriFit <span>AI</span></h1>
+    <p class="auth-gate__subtitle">Connectez-vous avec votre compte Google pour accéder à votre coach nutrition &amp; fitness.</p>
+    <div id="googleSignInBtn" class="auth-gate__googlebtn"></div>
+    <div class="auth-gate__divider"><span>ou</span></div>
+    <button type="button" id="guestBtn" class="auth-gate__guestbtn">Continuer en tant qu'invité</button>
+    <p class="auth-gate__hint">La connexion est obligatoire pour utiliser NutriFit AI.</p>
+  </div>
+</div>
+
+<!-- ==================================================================
+     PRÉCHARGEUR — animation d'entrée
+     ================================================================== -->
+<div id="preloader" class="preloader">
+  <div class="preloader__ring"></div>
+  <div class="preloader__label">NUTRIFIT <span>AI</span></div>
+</div> 
+
+<!-- ==================================================================
+     APPLICATION
+     ================================================================== -->
+<div class="app">
+
+  <!-- Overlay mobile (ferme la sidebar au clic) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ---------------- SIDEBAR ---------------- -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <div class="sidebar__logo">NF</div>
+      <div class="sidebar__brandtext">NutriFit<span>AI</span></div>
+      <button class="icon-btn mobile-only sidebar__closebtn" id="sidebarCloseBtn" aria-label="Fermer le menu">
+        <svg class="icon"><use href="#icon-close"/></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar__nav" id="sidebarNav" aria-label="Navigation principale">
+      <button class="nav-item active" data-target="dashboard">
+        <svg class="icon"><use href="#icon-dashboard"/></svg><span>Tableau de bord</span>
+      </button>
+      <button class="nav-item" data-target="calculateur">
+        <svg class="icon"><use href="#icon-calculator"/></svg><span>Calculateur</span>
+      </button>
+      <button class="nav-item" data-target="nutrition">
+        <svg class="icon"><use href="#icon-nutrition"/></svg><span>Nutrition</span>
+      </button>
+      <button class="nav-item" data-target="recettes">
+        <svg class="icon"><use href="#icon-recipes"/></svg><span>Recettes</span>
+      </button>
+      <button class="nav-item" data-target="shakers">
+        <svg class="icon"><use href="#icon-shaker"/></svg><span>Shakers</span>
+      </button>
+      <button class="nav-item" data-target="suivi">
+        <svg class="icon"><use href="#icon-tracking"/></svg><span>Suivi quotidien</span>
+      </button>
+      <button class="nav-item" data-target="progression">
+        <svg class="icon"><use href="#icon-progress"/></svg><span>Progression</span>
+      </button>
+      <button class="nav-item" data-target="parametres">
+        <svg class="icon"><use href="#icon-settings"/></svg><span>Paramètres</span>
+      </button>
+    </nav>
+
+    <div class="sidebar__footer">
+      <!-- Bloc compte Google (ajouté) -->
+      <div class="sidebar__account" id="sidebarAccount">
+        <img id="authUserAvatar" class="sidebar__avatar" src="" alt="Photo de profil">
+        <div class="sidebar__accounttext">
+          <span id="authUserName" class="sidebar__username"></span>
+          <span id="authUserEmail" class="sidebar__useremail"></span>
+        </div>
+        <button class="icon-btn" id="logoutBtn" aria-label="Se déconnecter" title="Se déconnecter">
+          <svg class="icon"><use href="#icon-close"/></svg>
+        </button>
+      </div>
+
+      <button class="theme-toggle" id="themeToggleSidebar" aria-label="Changer de thème">
+        <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+        <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+        <span class="theme-toggle__track"><span class="theme-toggle__thumb"></span></span>
+      </button>
+      <p class="sidebar__version">NutriFit AI · v1.0</p>
+    </div>
+  </aside>
+
+  <!-- ---------------- CONTENU PRINCIPAL ---------------- -->
+  <div class="main">
+
+    <header class="topbar">
+      <button class="icon-btn mobile-only" id="menuToggle" aria-label="Ouvrir le menu">
+        <svg class="icon"><use href="#icon-menu"/></svg>
+      </button>
+      <div class="topbar__title">
+        <h1 id="pageTitle">Tableau de bord</h1>
+        <p id="pageSubtitle">Votre synthèse nutrition &amp; performance</p>
+      </div>
+
+      <div class="topbar__stats" id="topbarStats" hidden>
+        <div class="stat-chip"><svg class="icon"><use href="#icon-flame"/></svg><span id="chipCalories">--</span> kcal</div>
+        <div class="stat-chip"><svg class="icon"><use href="#icon-egg"/></svg><span id="chipProtein">--</span> g</div>
+        <div class="stat-chip"><svg class="icon"><use href="#icon-wheat"/></svg><span id="chipCarbs">--</span> g</div>
+        <div class="stat-chip"><svg class="icon"><use href="#icon-droplet"/></svg><span id="chipFat">--</span> g</div>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- ============================================================
+           PAGE 1 — TABLEAU DE BORD
+           ============================================================ -->
+      <section id="page-dashboard" class="page-section active">
+
+        <div id="dashboardEmpty" class="empty-state card">
+          <svg class="icon icon-xl"><use href="#icon-dashboard"/></svg>
+          <h2>Votre tableau de bord est vide</h2>
+          <p>Renseignez votre profil dans le Calculateur pour générer vos besoins nutritionnels et débloquer vos statistiques.</p>
+          <button class="btn btn-primary" data-target="calculateur">
+            Aller au calculateur <svg class="icon"><use href="#icon-arrow-right"/></svg>
+          </button>
+        </div>
+
+        <div id="dashboardResults" hidden>
+
+          <div class="summary-bar card" id="dashboardSummary"></div>
+
+          <div class="ring-grid">
+            <div class="card ring-card fade-up">
+              <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120">
+                  <circle class="ring-track" cx="60" cy="60" r="52"/>
+                  <circle class="ring-value" id="ringImc" cx="60" cy="60" r="52"/>
+                </svg>
+                <div class="ring-center"><strong id="ringImcValue">--</strong><small>IMC</small></div>
+              </div>
+              <p class="ring-label" id="ringImcStatus">--</p>
+            </div>
+
+            <div class="card ring-card fade-up" style="--d:1">
+              <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120">
+                  <circle class="ring-track" cx="60" cy="60" r="52"/>
+                  <circle class="ring-value ring-value--b" id="ringBmr" cx="60" cy="60" r="52"/>
+                </svg>
+                <div class="ring-center"><strong id="ringBmrValue">--</strong><small>kcal MB</small></div>
+              </div>
+              <p class="ring-label">Métabolisme de base</p>
+            </div>
+
+            <div class="card ring-card fade-up" style="--d:2">
+              <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120">
+                  <circle class="ring-track" cx="60" cy="60" r="52"/>
+                  <circle class="ring-value ring-value--c" id="ringTdee" cx="60" cy="60" r="52"/>
+                </svg>
+                <div class="ring-center"><strong id="ringTdeeValue">--</strong><small>kcal TDEE</small></div>
+              </div>
+              <p class="ring-label">Dépense journalière</p>
+            </div>
+
+            <div class="card ring-card fade-up" style="--d:3">
+              <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120">
+                  <circle class="ring-track" cx="60" cy="60" r="52"/>
+                  <circle class="ring-value ring-value--d" id="ringGoal" cx="60" cy="60" r="52"/>
+                </svg>
+                <div class="ring-center"><strong id="ringGoalValue">--</strong><small>kcal cible</small></div>
+              </div>
+              <p class="ring-label" id="ringGoalDelta">--</p>
+            </div>
+          </div>
+
+          <div class="macro-grid" id="dashboardMacroGrid"></div>
+
+          <div class="two-col">
+            <div class="card">
+              <div class="card__head"><h3>Répartition des macronutriments</h3></div>
+              <canvas id="chartMacroDashboard" height="230"></canvas>
+              <div class="chart-legend" id="legendMacroDashboard"></div>
+            </div>
+            <div class="card">
+              <div class="card__head">
+                <h3>Calories par repas</h3>
+                <span class="badge badge-soft" id="mealsCountBadge">-- repas</span>
+              </div>
+              <div id="mealBreakdownList" class="meal-list"></div>
+            </div>
+          </div>
+
+          <div class="actions-row">
+            <button class="btn btn-outline" id="exportPdfBtnDash">
+              <svg class="icon"><use href="#icon-download"/></svg> Exporter le bilan en PDF
+            </button>
+            <button class="btn btn-ghost" data-target="calculateur">
+              <svg class="icon"><use href="#icon-refresh"/></svg> Recalculer mon profil
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAGE 2 — CALCULATEUR
+           ============================================================ -->
+      <section id="page-calculateur" class="page-section">
+
+        <form id="profileForm" class="card form-card" novalidate>
+
+          <fieldset class="form-fieldset">
+            <legend><svg class="icon"><use href="#icon-user"/></svg> Informations générales</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="age">Âge</label>
+                <input type="number" id="age" min="14" max="99" placeholder="30" required>
+                <span class="field-suffix">ans</span>
+              </div>
+
+              <div class="field">
+                <label>Sexe</label>
+                <div class="segmented" id="genderSegmented">
+                  <button type="button" class="segmented__opt active" data-value="male">Homme</button>
+                  <button type="button" class="segmented__opt" data-value="female">Femme</button>
+                </div>
+                <input type="hidden" id="gender" value="male">
+              </div>
+
+              <div class="field">
+                <label for="height">Taille</label>
+                <input type="number" id="height" min="100" max="230" placeholder="178" required>
+                <span class="field-suffix">cm</span>
+              </div>
+
+              <div class="field">
+                <label for="weight">Poids</label>
+                <input type="number" id="weight" min="30" max="300" step="0.1" placeholder="75" required>
+                <span class="field-suffix">kg</span>
+              </div>
+
+              <div class="field field--bmi">
+                <label for="bmiManual">IMC <small>(optionnel)</small></label>
+                <input type="number" id="bmiManual" step="0.1" placeholder="calculé automatiquement" disabled>
+                <label class="checkbox-inline">
+                  <input type="checkbox" id="bmiAuto" checked>
+                  <span>Calcul automatique</span>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-fieldset">
+            <legend><svg class="icon"><use href="#icon-progress"/></svg> Activité physique</legend>
+            <div class="form-grid">
+              <div class="field field--wide">
+                <label for="activityLevel">Niveau d'activité quotidienne</label>
+                <select id="activityLevel">
+                  <option value="sedentary">Sédentaire (peu ou pas d'exercice)</option>
+                  <option value="light">Peu actif (1 à 3 j/semaine)</option>
+                  <option value="active" selected>Actif (3 à 5 j/semaine)</option>
+                  <option value="very-active">Très actif (6 à 7 j/semaine)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="strengthSessions">Séances de musculation</label>
+                <input type="number" id="strengthSessions" min="0" max="14" value="3">
+                <span class="field-suffix">/ semaine</span>
+              </div>
+
+              <div class="field">
+                <label for="sessionDuration">Durée moyenne / séance</label>
+                <input type="number" id="sessionDuration" min="0" max="240" value="60">
+                <span class="field-suffix">min</span>
+              </div>
+
+              <div class="field">
+                <label for="cardioSessions">Séances de cardio</label>
+                <input type="number" id="cardioSessions" min="0" max="14" value="2">
+                <span class="field-suffix">/ semaine</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-fieldset">
+            <legend><svg class="icon"><use href="#icon-flame"/></svg> Objectif &amp; alimentation</legend>
+
+            <div class="field field--wide">
+              <label>Objectif</label>
+              <div class="goal-grid" id="goalGrid">
+                <button type="button" class="goal-opt" data-value="lose-fat">
+                  <svg class="icon"><use href="#icon-flame"/></svg><span>Perdre du gras</span>
+                </button>
+                <button type="button" class="goal-opt active" data-value="maintain">
+                  <svg class="icon"><use href="#icon-scale"/></svg><span>Maintenir mon poids</span>
+                </button>
+                <button type="button" class="goal-opt" data-value="gain-muscle">
+                  <svg class="icon"><use href="#icon-egg"/></svg><span>Prendre du muscle</span>
+                </button>
+                <button type="button" class="goal-opt" data-value="recomp">
+                  <svg class="icon"><use href="#icon-refresh"/></svg><span>Recomposition corporelle</span>
+                </button>
+              </div>
+              <input type="hidden" id="goal" value="maintain">
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="diet">Régime alimentaire</label>
+                <select id="diet">
+                  <option value="omnivore">Omnivore</option>
+                  <option value="vegetarian">Végétarien</option>
+                  <option value="vegan">Végan</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="mealsPerDay">Nombre de repas par jour</label>
+                <input type="number" id="mealsPerDay" min="2" max="6" value="4">
+              </div>
+
+              <div class="field field--wide">
+                <label>Allergies alimentaires</label>
+                <div class="chip-checks" id="allergyChecks">
+                  <label class="chip-check"><input type="checkbox" value="gluten"><span>Gluten</span></label>
+                  <label class="chip-check"><input type="checkbox" value="lactose"><span>Lactose</span></label>
+                  <label class="chip-check"><input type="checkbox" value="nuts"><span>Fruits à coque</span></label>
+                  <label class="chip-check"><input type="checkbox" value="eggs"><span>Œufs</span></label>
+                  <label class="chip-check"><input type="checkbox" value="soy"><span>Soja</span></label>
+                  <label class="chip-check"><input type="checkbox" value="fish"><span>Poisson / crustacés</span></label>
+                </div>
+                <input type="text" id="allergyOther" placeholder="Autres allergies (séparées par une virgule)">
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <svg class="icon"><use href="#icon-calculator"/></svg> Calculer mes besoins
+            </button>
+            <button type="reset" class="btn btn-ghost" id="resetFormBtn">Réinitialiser</button>
+          </div>
+        </form>
+
+        <div id="calcResultsCard" class="card result-card" hidden>
+          <div class="card__head"><h3><svg class="icon"><use href="#icon-check"/></svg> Résultats de votre calcul</h3></div>
+          <div class="result-grid" id="calcResultGrid"></div>
+          <div class="actions-row">
+            <button class="btn btn-primary" data-target="dashboard">Voir le tableau de bord <svg class="icon"><use href="#icon-arrow-right"/></svg></button>
+            <button class="btn btn-outline" data-target="recettes">Voir mes recettes suggérées</button>
+          </div>
+        </div>
+
+        <div class="card" id="burnCalcCard">
+          <div class="card__head">
+            <h3><svg class="icon"><use href="#icon-flame"/></svg> Calculateur de calories brûlées</h3>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="burnActivity">Activité</label>
+              <select id="burnActivity">
+                <option value="strength">Musculation</option>
+                <option value="running">Course à pied</option>
+                <option value="walking">Marche</option>
+                <option value="cycling">Vélo</option>
+                <option value="swimming">Natation</option>
+                <option value="football">Football</option>
+                <option value="basketball">Basketball</option>
+                <option value="tennis">Tennis</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="burnIntensity">Intensité</label>
+              <select id="burnIntensity">
+                <option value="low">Légère</option>
+                <option value="medium" selected>Modérée</option>
+                <option value="high">Intense</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="burnDuration">Durée</label>
+              <input type="number" id="burnDuration" min="1" max="300" value="45">
+              <span class="field-suffix">min</span>
+            </div>
+            <div class="field">
+              <label for="burnWeight">Poids utilisé</label>
+              <input type="number" id="burnWeight" min="30" max="300" step="0.1" placeholder="75">
+              <span class="field-suffix">kg</span>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="computeBurnBtn">Calculer les calories brûlées</button>
+            <div class="burn-result" id="burnResult" hidden>
+              <svg class="icon"><use href="#icon-flame"/></svg>
+              <strong id="burnResultValue">0</strong> kcal brûlées
+              <button class="btn btn-sm btn-outline" id="addBurnToLog">Ajouter au journal du jour</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAGE 3 — NUTRITION
+           ============================================================ -->
+      <section id="page-nutrition" class="page-section">
+        <div id="nutritionEmpty" class="empty-state card">
+          <svg class="icon icon-xl"><use href="#icon-nutrition"/></svg>
+          <h2>Aucune donnée nutritionnelle</h2>
+          <p>Complétez le calculateur pour afficher votre tableau de besoins journaliers détaillé.</p>
+          <button class="btn btn-primary" data-target="calculateur">Aller au calculateur <svg class="icon"><use href="#icon-arrow-right"/></svg></button>
+        </div>
+
+        <div id="nutritionResults" hidden>
+          <div class="card">
+            <div class="card__head">
+              <h3>Besoins journaliers</h3>
+              <button class="btn btn-sm btn-outline" id="printNutritionBtn"><svg class="icon"><use href="#icon-print"/></svg> Imprimer</button>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table" id="nutritionTable">
+                <thead>
+                  <tr><th>Nutriment</th><th>Besoin journalier</th><th>Indicateur</th><th>Repère</th></tr>
+                </thead>
+                <tbody id="nutritionTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="card">
+              <div class="card__head"><h3>Répartition des macronutriments</h3></div>
+              <canvas id="chartMacroNutrition" height="230"></canvas>
+              <div class="chart-legend" id="legendMacroNutrition"></div>
+            </div>
+            <div class="card">
+              <div class="card__head"><h3>Détail par repas</h3></div>
+              <div class="table-wrap">
+                <table class="data-table" id="mealBreakdownTable">
+                  <thead><tr><th>Repas</th><th>Kcal</th><th>Prot.</th><th>Gluc.</th><th>Lip.</th></tr></thead>
+                  <tbody id="mealBreakdownTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAGE 4 — RECETTES
+           ============================================================ -->
+      <section id="page-recettes" class="page-section">
+        <div class="card toolbar-card">
+          <div class="search-box">
+            <svg class="icon"><use href="#icon-search"/></svg>
+            <input type="search" id="recipeSearch" placeholder="Rechercher une recette ou un ingrédient…">
+          </div>
+          <div class="toolbar-filters">
+            <select id="filterObjective">
+              <option value="all">Tous les objectifs</option>
+              <option value="lose-fat">Perte de gras</option>
+              <option value="maintain">Maintien</option>
+              <option value="gain-muscle">Prise de muscle</option>
+              <option value="recomp">Recomposition</option>
+            </select>
+            <select id="filterDiet">
+              <option value="all">Tous les régimes</option>
+              <option value="omnivore">Omnivore</option>
+              <option value="vegetarian">Végétarien</option>
+              <option value="vegan">Végan</option>
+            </select>
+            <button class="btn btn-outline btn-sm" id="openCartBtn">
+              <svg class="icon"><use href="#icon-cart"/></svg> Liste de courses
+              <span class="badge badge-count" id="cartCount">0</span>
+            </button>
+          </div>
+          <div class="tabs" id="recipeCategoryTabs">
+            <button class="tab active" data-cat="all">Toutes</button>
+            <button class="tab" data-cat="breakfast">Petit-déjeuner</button>
+            <button class="tab" data-cat="lunch">Déjeuner</button>
+            <button class="tab" data-cat="dinner">Dîner</button>
+            <button class="tab" data-cat="snack">Collations</button>
+            <button class="tab" data-cat="shaker">Shakers</button>
+          </div>
+        </div>
+
+        <div class="recipe-grid" id="recipeGrid"></div>
+        <p class="empty-inline" id="recipeNoResults" hidden>Aucune recette ne correspond à votre recherche.</p>
+      </section>
+
+      <!-- ============================================================
+           PAGE 5 — SHAKERS
+           ============================================================ -->
+      <section id="page-shakers" class="page-section">
+
+        <div class="card">
+          <div class="card__head"><h3>Shakers rapides</h3></div>
+          <div class="preset-row" id="shakerPresets"></div>
+        </div>
+
+        <div class="two-col two-col--shaker">
+          <div class="card">
+            <div class="card__head"><h3>Composez votre shaker</h3></div>
+            <div class="shaker-builder" id="shakerBuilder"></div>
+            <div class="form-actions">
+              <button class="btn btn-ghost btn-sm" id="resetShakerBtn"><svg class="icon"><use href="#icon-refresh"/></svg> Réinitialiser</button>
+            </div>
+          </div>
+
+          <div class="card shaker-result-card">
+            <div class="card__head"><h3>Résultat</h3></div>
+            <div class="shaker-total" id="shakerTotalKcal">0 <small>kcal</small></div>
+            <div class="macro-bars" id="shakerMacroBars"></div>
+            <div class="form-actions">
+              <button class="btn btn-primary btn-sm" id="saveShakerBtn">Enregistrer ce shaker</button>
+              <button class="btn btn-outline btn-sm" id="addShakerToTrackingBtn">Ajouter au suivi du jour</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="savedShakersCard" hidden>
+          <div class="card__head"><h3>Mes shakers enregistrés</h3></div>
+          <div class="saved-shaker-list" id="savedShakersList"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAGE 6 — SUIVI QUOTIDIEN
+           ============================================================ -->
+      <section id="page-suivi" class="page-section">
+
+        <div class="card tracking-head">
+          <div>
+            <h3 id="trackingDate">Aujourd'hui</h3>
+            <p class="muted">Cochez vos repas au fur et à mesure de la journée.</p>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="resetDayBtn"><svg class="icon"><use href="#icon-refresh"/></svg> Réinitialiser la journée</button>
+        </div>
+
+        <div id="trackingEmpty" class="empty-state card">
+          <svg class="icon icon-xl"><use href="#icon-tracking"/></svg>
+          <h2>Complétez d'abord votre profil</h2>
+          <p>Vos objectifs journaliers sont nécessaires pour calculer ce qu'il vous reste à consommer.</p>
+          <button class="btn btn-primary" data-target="calculateur">Aller au calculateur <svg class="icon"><use href="#icon-arrow-right"/></svg></button>
+        </div>
+
+        <div id="trackingResults" hidden>
+          <div class="tracking-summary" id="trackingSummary"></div>
+
+          <div class="card">
+            <div class="card__head"><h3>Repas du jour</h3></div>
+            <div class="tracking-meal-list" id="trackingMealList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAGE 7 — PROGRESSION
+           ============================================================ -->
+      <section id="page-progression" class="page-section">
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card__head"><h3><svg class="icon"><use href="#icon-scale"/></svg> Évolution du poids</h3></div>
+            <form class="weight-log-form" id="weightLogForm">
+              <input type="date" id="weightDate">
+              <input type="number" id="weightValue" step="0.1" placeholder="Poids (kg)" required>
+              <button type="submit" class="btn btn-primary btn-sm"><svg class="icon"><use href="#icon-plus"/></svg> Ajouter</button>
+            </form>
+            <canvas id="chartWeight" height="220"></canvas>
+            <div class="weight-history" id="weightHistoryList"></div>
+          </div>
+
+          <div class="card">
+            <div class="card__head"><h3>Objectif hebdomadaire</h3></div>
+            <div class="gauge-wrap">
+              <svg class="gauge" viewBox="0 0 200 120">
+                <path class="gauge-track" d="M20 110 A80 80 0 0 1 180 110"/>
+                <path class="gauge-value" id="weeklyGaugeValue" d="M20 110 A80 80 0 0 1 180 110"/>
+              </svg>
+              <div class="gauge-center">
+                <strong id="weeklyGaugeText">0%</strong>
+                <small>jours dans l'objectif</small>
+              </div>
+            </div>
+            <p class="muted" id="weeklyGaugeDetail">Aucune donnée cette semaine pour le moment.</p>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card__head"><h3>Calories consommées (7 derniers jours)</h3></div>
+            <canvas id="chartCaloriesConsumed" height="220"></canvas>
+          </div>
+          <div class="card">
+            <div class="card__head"><h3>Calories brûlées (7 derniers jours)</h3></div>
+            <canvas id="chartCaloriesBurned" height="220"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head"><h3>Répartition des macronutriments cibles</h3></div>
+          <canvas id="chartMacroProgress" height="230"></canvas>
+          <div class="chart-legend" id="legendMacroProgress"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PAGE 8 — PARAMÈTRES
+           ============================================================ -->
+      <section id="page-parametres" class="page-section">
+
+        <div class="card">
+          <div class="card__head"><h3>Apparence</h3></div>
+          <div class="setting-row">
+            <div>
+              <strong>Thème sombre</strong>
+              <p class="muted">Basculez entre le mode clair et le mode sombre.</p>
+            </div>
+            <button class="theme-toggle" id="themeToggleSettings" aria-label="Changer de thème">
+              <svg class="icon icon-sun"><use href="#icon-sun"/></svg>
+              <svg class="icon icon-moon"><use href="#icon-moon"/></svg>
+              <span class="theme-toggle__track"><span class="theme-toggle__thumb"></span></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head"><h3>Export &amp; impression</h3></div>
+          <div class="setting-actions">
+            <button class="btn btn-outline" id="exportPdfBtnSettings"><svg class="icon"><use href="#icon-download"/></svg> Exporter le bilan en PDF</button>
+            <button class="btn btn-outline" id="printNutritionBtnSettings"><svg class="icon"><use href="#icon-print"/></svg> Imprimer le tableau nutritionnel</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head"><h3>Mes données</h3></div>
+          <p class="muted">Toutes vos données sont enregistrées localement dans votre navigateur (localStorage). Rien n'est envoyé sur un serveur.</p>
+          <div class="setting-actions">
+            <button class="btn btn-outline" id="exportDataBtn"><svg class="icon"><use href="#icon-download"/></svg> Exporter mes données (JSON)</button>
+            <label class="btn btn-outline" for="importDataInput" style="cursor:pointer">
+              <svg class="icon"><use href="#icon-upload"/></svg> Importer des données
+            </label>
+            <input type="file" id="importDataInput" accept="application/json" hidden>
+            <button class="btn btn-danger-outline" id="resetAllBtn"><svg class="icon"><use href="#icon-trash"/></svg> Réinitialiser toutes les données</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head"><h3><svg class="icon"><use href="#icon-info"/></svg> À propos</h3></div>
+          <p class="muted">NutriFit AI estime vos besoins nutritionnels à partir de formules scientifiques reconnues (Mifflin-St Jeor). Ces résultats sont indicatifs et ne remplacent pas l'avis d'un professionnel de santé ou d'un nutritionniste.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ==================================================================
+     MODALE — DÉTAIL RECETTE
+     ================================================================== -->
+<div class="modal-backdrop" id="recipeModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="recipeModalClose" aria-label="Fermer"><svg class="icon"><use href="#icon-close"/></svg></button>
+    <div class="modal__body" id="recipeModalBody"></div>
+  </div>
+</div>
+
+<!-- ==================================================================
+     MODALE — LISTE DE COURSES
+     ================================================================== -->
+<div class="modal-backdrop" id="cartModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="cartModalClose" aria-label="Fermer"><svg class="icon"><use href="#icon-close"/></svg></button>
+    <div class="modal__body">
+      <h2><svg class="icon"><use href="#icon-cart"/></svg> Liste de courses</h2>
+      <div id="cartList" class="cart-list"></div>
+      <div class="form-actions">
+        <button class="btn btn-outline btn-sm" id="printCartBtn"><svg class="icon"><use href="#icon-print"/></svg> Imprimer</button>
+        <button class="btn btn-danger-outline btn-sm" id="clearCartBtn"><svg class="icon"><use href="#icon-trash"/></svg> Vider la liste</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Zone imprimable dédiée (remplie dynamiquement avant impression) -->
+<div id="printArea" class="print-area"></div>
+
+<!-- Notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==================================================================
+     SCRIPTS — chargés dans l'ordre des dépendances
+     ================================================================== -->
+<script src="js/auth.js"></script>
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/calculations.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/recipes.js"></script>
+<script src="js/shaker.js"></script>
+<script src="js/tracking.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+/* ==========================================================================
+   BASE.CSS
+   Reset minimal + styles des éléments HTML natifs (typo, formulaires, etc.)
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-high);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--transition-med), color var(--transition-med);
+}
+
+img, svg { display: block; max-width: 100%; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text-high);
+  margin: 0 0 var(--sp-2);
+  letter-spacing: -.01em;
+}
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+
+p { margin: 0 0 var(--sp-3); color: var(--text-mid); }
+.muted { color: var(--text-mid); font-size: .9rem; }
+
+a { color: var(--brand-signal); text-decoration: none; }
+
+ul, ol { margin: 0; padding-left: 1.2em; color: var(--text-mid); }
+li + li { margin-top: var(--sp-1); }
+
+button { font-family: inherit; cursor: pointer; }
+
+/* ---- Champs de formulaire natifs ----------------------------------- */
+input, select, textarea {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  color: var(--text-high);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+input::placeholder { color: var(--text-low); }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--brand-signal);
+  box-shadow: 0 0 0 3px rgba(57,255,136,.15);
+}
+input:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Visible au clavier uniquement (accessibilité) */
+:focus-visible { outline: 2px solid var(--brand-signal); outline-offset: 2px; }
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236d7a71' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
+
+input[type="number"] { font-family: var(--font-mono); }
+input[type="checkbox"] { width: auto; accent-color: var(--brand-signal); }
+
+/* ---- Scrollbar (esthétique, navigateurs webkit) --------------------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-signal-dim); }
+
+/* ---- Icônes utilitaires --------------------------------------------- */
+.icon { width: 18px; height: 18px; flex-shrink: 0; }
+.icon-xl { width: 42px; height: 42px; color: var(--brand-signal); }
+
+/* Réduction des animations si demandé par le système */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}

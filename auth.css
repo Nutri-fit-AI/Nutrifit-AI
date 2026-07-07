@@ -1,0 +1,171 @@
+/* ==========================================================================
+   AUTH.CSS
+   Fichier AJOUTÉ (ne modifie aucun style existant) : habillage de l'écran
+   de connexion Google obligatoire et du bloc compte affiché dans le pied
+   de la sidebar. Reprend les design tokens définis dans variables.css.
+   ========================================================================== */
+
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-6);
+  background: radial-gradient(circle at 50% 15%, rgba(57,255,136,.10), transparent 60%), var(--bg);
+}
+
+/* La classe .auth-locked est ajoutée/retirée du <body> par js/auth.js */
+body.auth-locked .auth-gate {
+  display: flex;
+}
+
+body.auth-locked {
+  overflow: hidden;
+}
+
+.auth-gate__card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--sp-8) var(--sp-6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.auth-gate__logo {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--brand-signal), var(--brand-signal-dim));
+  color: #06130c;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--glow-signal);
+}
+
+.auth-gate__title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--text-high);
+  margin: 0;
+}
+
+.auth-gate__title span {
+  color: var(--brand-signal);
+}
+
+.auth-gate__subtitle {
+  font-size: .9rem;
+  color: var(--text-mid);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.auth-gate__googlebtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  margin-top: var(--sp-2);
+}
+
+.auth-gate__hint {
+  font-size: .75rem;
+  color: var(--text-low);
+  margin: 0;
+}
+
+/* ---- Bloc compte affiché dans le pied de la sidebar une fois connecté ---- */
+.sidebar__account {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-hover);
+  flex-shrink: 0;
+}
+
+.sidebar__accounttext {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.sidebar__username {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text-high);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__useremail {
+  font-size: .72rem;
+  color: var(--text-low);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Option "Continuer en tant qu'invité" (ajouté) ---- */
+.auth-gate__divider {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  color: var(--text-low);
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.auth-gate__divider::before,
+.auth-gate__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-gate__guestbtn {
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-mid);
+  font-family: var(--font-body, inherit);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+
+.auth-gate__guestbtn:hover {
+  border-color: var(--brand-signal);
+  color: var(--text-high);
+  background: rgba(57,255,136,.06);
+}

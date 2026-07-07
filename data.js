@@ -1,0 +1,250 @@
+/* ==========================================================================
+   DATA.JS
+   Toutes les données statiques de l'application : facteurs d'activité,
+   objectifs, table des dépenses (MET), base de recettes et base
+   d'ingrédients du calculateur de shaker.
+   Aucune logique ici : uniquement des constantes exploitées par les
+   autres modules (calculations.js, recipes.js, shaker.js…).
+   ========================================================================== */
+
+/* ---- Niveaux d'activité quotidienne --------------------------------- */
+const ACTIVITY_FACTORS = {
+  'sedentary':   { label: 'Sédentaire',  factor: 1.2 },
+  'light':       { label: 'Peu actif',   factor: 1.375 },
+  'active':      { label: 'Actif',       factor: 1.55 },
+  'very-active': { label: 'Très actif',  factor: 1.725 }
+};
+
+/* ---- Objectifs : ajustement calorique + besoins en protéines/lipides */
+const GOALS = {
+  'lose-fat':    { label: 'Perdre du gras',            calAdjust: -0.20, proteinPerKg: 2.2, fatPercent: 0.30, icon: 'icon-flame' },
+  'maintain':    { label: 'Maintenir son poids',        calAdjust:  0,    proteinPerKg: 1.8, fatPercent: 0.30, icon: 'icon-scale' },
+  'gain-muscle': { label: 'Prendre du muscle',          calAdjust:  0.12, proteinPerKg: 2.0, fatPercent: 0.25, icon: 'icon-egg' },
+  'recomp':      { label: 'Recomposition corporelle',   calAdjust: -0.05, proteinPerKg: 2.4, fatPercent: 0.28, icon: 'icon-refresh' }
+};
+
+/* ---- Régimes alimentaires -------------------------------------------- */
+const DIET_LABELS = { omnivore: 'Omnivore', vegetarian: 'Végétarien', vegan: 'Végan' };
+
+/* ---- Allergènes gérés par le formulaire ------------------------------- */
+const ALLERGEN_LABELS = {
+  gluten: 'Gluten', lactose: 'Lactose', nuts: 'Fruits à coque',
+  eggs: 'Œufs', soy: 'Soja', fish: 'Poisson / crustacés'
+};
+
+/* ---- Table des dépenses énergétiques par activité (équivalents MET) -
+   Formule utilisée : kcal = MET x 3.5 x poids(kg) / 200 x durée(min)   */
+const MET_TABLE = {
+  strength:   { label: 'Musculation',   low: 3.5, medium: 5,   high: 6 },
+  running:    { label: 'Course à pied', low: 6,   medium: 9.8, high: 12.8 },
+  walking:    { label: 'Marche',        low: 2.8, medium: 3.5, high: 5 },
+  cycling:    { label: 'Vélo',          low: 4,   medium: 8,   high: 10 },
+  swimming:   { label: 'Natation',      low: 5.8, medium: 8.3, high: 10 },
+  football:   { label: 'Football',      low: 5,   medium: 7,   high: 10 },
+  basketball: { label: 'Basketball',    low: 4.5, medium: 6.5, high: 8 },
+  tennis:     { label: 'Tennis',        low: 5,   medium: 7,   high: 8 }
+};
+
+/* ---- Métadonnées d'affichage par catégorie de recette ----------------- */
+const CATEGORY_META = {
+  breakfast: { label: 'Petit-déjeuner', emoji: '🍳' },
+  lunch:     { label: 'Déjeuner',       emoji: '🍛' },
+  dinner:    { label: 'Dîner',          emoji: '🍽️' },
+  snack:     { label: 'Collation',      emoji: '🍌' },
+  shaker:    { label: 'Shaker',         emoji: '🥤' }
+};
+
+/* ---- Base d'ingrédients pour le calculateur de shaker -----------------
+   `per` = quantité de référence pour les valeurs nutritionnelles.
+   `unit` = unité affichée. `step`/`default` pilotent le champ input.    */
+const SHAKER_INGREDIENTS = [
+  { id: 'whey',      name: 'Whey (poudre)',        icon: 'icon-shaker',   unit: 'g',  per: 30,  default: 30,  step: 5,  kcal: 120, protein: 24,  carbs: 3,   fat: 1.5 },
+  { id: 'milk',      name: 'Lait demi-écrémé',      icon: 'icon-droplet', unit: 'ml', per: 100, default: 200, step: 10, kcal: 46,  protein: 3.3, carbs: 4.8, fat: 1.6 },
+  { id: 'water',     name: 'Eau',                   icon: 'icon-droplet', unit: 'ml', per: 100, default: 100, step: 10, kcal: 0,   protein: 0,   carbs: 0,   fat: 0 },
+  { id: 'oats',      name: "Flocons d'avoine",      icon: 'icon-wheat',   unit: 'g',  per: 100, default: 0,   step: 5,  kcal: 389, protein: 13.5,carbs: 66,  fat: 7 },
+  { id: 'banana',    name: 'Banane',                icon: 'icon-nutrition', unit: 'unité', per: 1, default: 0, step: 1,  kcal: 105, protein: 1.3, carbs: 27,  fat: 0.4 },
+  { id: 'pbutter',   name: 'Beurre de cacahuète',   icon: 'icon-egg',     unit: 'c. à soupe', per: 1, default: 0, step: 1, kcal: 94, protein: 4,   carbs: 3,   fat: 8 },
+  { id: 'yogurt',    name: 'Yaourt grec',           icon: 'icon-droplet', unit: 'g',  per: 100, default: 0,   step: 10, kcal: 97,  protein: 9,   carbs: 3.6, fat: 5 },
+  { id: 'berries',   name: 'Fruits rouges',         icon: 'icon-nutrition', unit: 'g', per: 100, default: 0,  step: 10, kcal: 50,  protein: 1.1, carbs: 11.5,fat: 0.4 },
+  { id: 'honey',     name: 'Miel',                  icon: 'icon-droplet', unit: 'c. à café', per: 1, default: 0, step: 1, kcal: 21, protein: 0,  carbs: 5.7, fat: 0 },
+  { id: 'creatine',  name: 'Créatine',               icon: 'icon-flame',   unit: 'g',  per: 5,   default: 0,   step: 1,  kcal: 0,   protein: 0,   carbs: 0,   fat: 0 }
+];
+
+/* Compositions pré-remplies pour les boutons "shakers rapides" ---------- */
+const SHAKER_PRESETS = [
+  { id: 'preset-1', name: 'Whey + lait + banane',      mix: { whey: 30, milk: 250, banana: 1 } },
+  { id: 'preset-2', name: "Whey + flocons d'avoine",   mix: { whey: 30, oats: 50, milk: 200 } },
+  { id: 'preset-3', name: 'Smoothie protéiné',         mix: { whey: 25, berries: 150, water: 200 } },
+  { id: 'preset-4', name: 'Shaker prise de masse',     mix: { whey: 40, milk: 300, banana: 1, oats: 40, pbutter: 1 } },
+  { id: 'preset-5', name: 'Shaker sèche',               mix: { whey: 30, water: 250, berries: 60 } }
+];
+
+/* ---- Base de recettes --------------------------------------------------
+   objectives : objectifs pour lesquels la recette est suggérée
+   diets      : régimes compatibles ('omnivore' | 'vegetarian' | 'vegan')
+   allergens  : allergènes présents (sert à exclure automatiquement)      */
+const RECIPES = [
+
+  /* ----------------------------- PETIT-DÉJEUNER ----------------------- */
+  {
+    id: 'bf-pancakes', category: 'breakfast', name: 'Pancakes protéinés', emoji: '🥞',
+    objectives: ['gain-muscle', 'recomp', 'maintain'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['gluten', 'eggs', 'lactose'],
+    kcal: 420, protein: 32, carbs: 45, fat: 12, fiber: 4,
+    prepTime: 15, difficulty: 'easy',
+    ingredients: ['60 g de flocons d\'avoine mixés', '2 œufs entiers', '30 g de whey vanille', '100 ml de lait', '1/2 banane écrasée', '1 pincée de levure chimique'],
+    steps: ['Mixer tous les ingrédients ensemble jusqu\'à obtenir une pâte lisse.', 'Faire chauffer une poêle légèrement huilée à feu moyen.', 'Cuire chaque pancake environ 2 minutes de chaque côté.', 'Servir avec des fruits frais ou un filet de miel.']
+  },
+  {
+    id: 'bf-oats', category: 'breakfast', name: 'Overnight oats', emoji: '🥣',
+    objectives: ['lose-fat', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian', 'vegan'],
+    allergens: [],
+    kcal: 380, protein: 24, carbs: 55, fat: 8, fiber: 7,
+    prepTime: 10, difficulty: 'easy',
+    ingredients: ['60 g de flocons d\'avoine', '200 ml de lait d\'amande', '20 g de protéine en poudre', '1 cuillère à café de miel', 'Quelques fruits rouges'],
+    steps: ['Mélanger les flocons, le lait et la protéine dans un bocal.', 'Couvrir et réfrigérer toute la nuit.', 'Le lendemain, remuer et ajouter les fruits rouges et le miel.', 'Déguster froid.']
+  },
+  {
+    id: 'bf-omelette', category: 'breakfast', name: 'Omelette fitness', emoji: '🍳',
+    objectives: ['lose-fat', 'gain-muscle', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['eggs', 'lactose'],
+    kcal: 340, protein: 30, carbs: 6, fat: 22, fiber: 2,
+    prepTime: 12, difficulty: 'easy',
+    ingredients: ['3 œufs entiers', '30 g de fromage râpé allégé', 'Une poignée d\'épinards frais', 'Quelques tomates cerises', 'Sel, poivre'],
+    steps: ['Battre les œufs dans un bol avec le sel et le poivre.', 'Faire revenir les épinards et les tomates 2 minutes.', 'Verser les œufs battus et ajouter le fromage.', 'Cuire à feu doux 5 minutes et plier l\'omelette.']
+  },
+
+  /* ------------------------------- DÉJEUNER ---------------------------- */
+  {
+    id: 'lu-poulet-riz', category: 'lunch', name: 'Riz, poulet et brocolis', emoji: '🍗',
+    objectives: ['gain-muscle', 'maintain', 'recomp'], diets: ['omnivore'],
+    allergens: [],
+    kcal: 520, protein: 42, carbs: 55, fat: 12, fiber: 5,
+    prepTime: 25, difficulty: 'easy',
+    ingredients: ['150 g de blanc de poulet', '80 g de riz basmati (cru)', '200 g de brocolis', '1 cuillère à soupe d\'huile d\'olive', 'Épices au choix'],
+    steps: ['Cuire le riz selon les instructions du paquet.', 'Cuire le poulet à la poêle avec les épices.', 'Cuire les brocolis à la vapeur 8 minutes.', 'Assembler le tout et assaisonner d\'huile d\'olive.']
+  },
+  {
+    id: 'lu-pates-saumon', category: 'lunch', name: 'Pâtes complètes et saumon', emoji: '🍝',
+    objectives: ['maintain', 'gain-muscle', 'recomp'], diets: ['omnivore'],
+    allergens: ['gluten', 'fish'],
+    kcal: 560, protein: 36, carbs: 60, fat: 18, fiber: 6,
+    prepTime: 20, difficulty: 'medium',
+    ingredients: ['90 g de pâtes complètes (crues)', '120 g de pavé de saumon', '1 filet de citron', '1 cuillère à soupe d\'huile d\'olive', 'Persil frais'],
+    steps: ['Cuire les pâtes complètes al dente.', 'Cuire le saumon à la poêle 4 minutes de chaque côté.', 'Mélanger les pâtes avec l\'huile d\'olive et le citron.', 'Ajouter le saumon émietté et parsemer de persil.']
+  },
+  {
+    id: 'lu-bowl', category: 'lunch', name: 'Bowl healthy quinoa', emoji: '🥗',
+    objectives: ['lose-fat', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian', 'vegan'],
+    allergens: [],
+    kcal: 460, protein: 20, carbs: 55, fat: 16, fiber: 12,
+    prepTime: 20, difficulty: 'easy',
+    ingredients: ['70 g de quinoa (cru)', '100 g de pois chiches cuits', '1/2 avocat', 'Tomates cerises', 'Concombre', 'Jus de citron, huile d\'olive'],
+    steps: ['Cuire le quinoa puis laisser refroidir.', 'Disposer tous les ingrédients dans un bol.', 'Assaisonner avec le jus de citron et l\'huile d\'olive.', 'Mélanger légèrement avant de déguster.']
+  },
+
+  /* -------------------------------- DÎNER ------------------------------ */
+  {
+    id: 'di-steak', category: 'dinner', name: 'Steak et légumes verts', emoji: '🥩',
+    objectives: ['gain-muscle', 'maintain', 'recomp'], diets: ['omnivore'],
+    allergens: [],
+    kcal: 480, protein: 40, carbs: 20, fat: 24, fiber: 6,
+    prepTime: 20, difficulty: 'easy',
+    ingredients: ['150 g de steak de bœuf', '200 g de haricots verts', '100 g de carottes', '1 cuillère à soupe d\'huile d\'olive', '1 gousse d\'ail'],
+    steps: ['Cuire le steak à la poêle selon la cuisson désirée.', 'Faire revenir les légumes avec l\'ail émincé.', 'Assaisonner à votre goût.', 'Servir immédiatement bien chaud.']
+  },
+  {
+    id: 'di-chili', category: 'dinner', name: 'Chili con carne', emoji: '🌶️',
+    objectives: ['gain-muscle', 'maintain', 'recomp'], diets: ['omnivore'],
+    allergens: [],
+    kcal: 520, protein: 38, carbs: 45, fat: 18, fiber: 10,
+    prepTime: 35, difficulty: 'medium',
+    ingredients: ['150 g de viande hachée à 5%', '150 g de haricots rouges cuits', '200 g de tomates concassées', '1 oignon', 'Cumin, paprika, piment'],
+    steps: ['Faire revenir l\'oignon puis la viande hachée.', 'Ajouter les tomates concassées et les épices.', 'Incorporer les haricots rouges.', 'Laisser mijoter 20 minutes à feu doux.']
+  },
+  {
+    id: 'di-poisson', category: 'dinner', name: 'Poisson blanc et riz', emoji: '🐟',
+    objectives: ['lose-fat', 'maintain', 'recomp'], diets: ['omnivore'],
+    allergens: ['fish'],
+    kcal: 420, protein: 35, carbs: 40, fat: 12, fiber: 3,
+    prepTime: 20, difficulty: 'easy',
+    ingredients: ['150 g de cabillaud', '70 g de riz basmati (cru)', '1 citron', 'Herbes de Provence', '1 cuillère à café d\'huile d\'olive'],
+    steps: ['Cuire le riz selon les instructions.', 'Cuire le poisson au four avec le citron et les herbes.', 'Dresser le poisson sur le riz.', 'Arroser d\'un filet d\'huile d\'olive avant de servir.']
+  },
+
+  /* ------------------------------ COLLATIONS --------------------------- */
+  {
+    id: 'sn-fromage-blanc', category: 'snack', name: 'Fromage blanc miel-cannelle', emoji: '🍶',
+    objectives: ['lose-fat', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['lactose'],
+    kcal: 140, protein: 16, carbs: 10, fat: 3, fiber: 0,
+    prepTime: 2, difficulty: 'easy',
+    ingredients: ['200 g de fromage blanc 0-3%', '1 cuillère à café de miel', 'Cannelle'],
+    steps: ['Verser le fromage blanc dans un bol.', 'Ajouter le miel et une pincée de cannelle.', 'Mélanger et déguster frais.']
+  },
+  {
+    id: 'sn-banane-pb', category: 'snack', name: 'Banane et beurre de cacahuète', emoji: '🍌',
+    objectives: ['gain-muscle', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian', 'vegan'],
+    allergens: ['nuts'],
+    kcal: 260, protein: 6, carbs: 30, fat: 14, fiber: 4,
+    prepTime: 2, difficulty: 'easy',
+    ingredients: ['1 banane', '1 cuillère à soupe de beurre de cacahuète'],
+    steps: ['Couper la banane en rondelles.', 'Tartiner de beurre de cacahuète.', 'Déguster immédiatement.']
+  },
+  {
+    id: 'sn-yaourt-grec', category: 'snack', name: 'Yaourt grec et fruits rouges', emoji: '🫐',
+    objectives: ['lose-fat', 'maintain', 'gain-muscle', 'recomp'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['lactose'],
+    kcal: 180, protein: 18, carbs: 12, fat: 7, fiber: 2,
+    prepTime: 2, difficulty: 'easy',
+    ingredients: ['200 g de yaourt grec', 'Quelques fruits rouges', '1 cuillère à café de miel'],
+    steps: ['Verser le yaourt grec dans un bol.', 'Ajouter les fruits rouges.', 'Arroser de miel et servir.']
+  },
+
+  /* -------------------------------- SHAKERS ----------------------------- */
+  {
+    id: 'sh-whey-lait-banane', category: 'shaker', name: 'Whey, lait et banane', emoji: '🥤',
+    objectives: ['gain-muscle', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['lactose'],
+    kcal: 320, protein: 34, carbs: 32, fat: 6, fiber: 2,
+    prepTime: 5, difficulty: 'easy',
+    ingredients: ['30 g de whey', '250 ml de lait demi-écrémé', '1 banane', 'Glaçons'],
+    steps: ['Placer tous les ingrédients dans un shaker ou un blender.', 'Mixer environ 30 secondes.', 'Servir bien frais.']
+  },
+  {
+    id: 'sh-whey-avoine', category: 'shaker', name: "Whey et flocons d'avoine", emoji: '🥤',
+    objectives: ['gain-muscle', 'maintain'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['lactose'],
+    kcal: 380, protein: 38, carbs: 40, fat: 6, fiber: 4,
+    prepTime: 5, difficulty: 'easy',
+    ingredients: ['30 g de whey', "50 g de flocons d'avoine", '250 ml de lait'],
+    steps: ['Mixer la whey, les flocons et le lait.', 'Ajuster la texture avec un peu d\'eau si besoin.', 'Servir immédiatement.']
+  },
+  {
+    id: 'sh-smoothie', category: 'shaker', name: 'Smoothie protéiné', emoji: '🥤',
+    objectives: ['lose-fat', 'maintain', 'recomp'], diets: ['omnivore', 'vegetarian', 'vegan'],
+    allergens: [],
+    kcal: 260, protein: 26, carbs: 28, fat: 4, fiber: 5,
+    prepTime: 5, difficulty: 'easy',
+    ingredients: ['25 g de protéine en poudre', '150 g de fruits rouges', '200 ml d\'eau ou de lait végétal', 'Glaçons'],
+    steps: ['Mixer tous les ingrédients ensemble.', 'Ajouter des glaçons pour la texture.', 'Servir bien frais.']
+  },
+  {
+    id: 'sh-prise-masse', category: 'shaker', name: 'Shaker prise de masse', emoji: '🥤',
+    objectives: ['gain-muscle'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['lactose', 'nuts'],
+    kcal: 620, protein: 45, carbs: 70, fat: 18, fiber: 5,
+    prepTime: 5, difficulty: 'easy',
+    ingredients: ['40 g de whey', '300 ml de lait entier', '1 banane', "40 g de flocons d'avoine", '1 cuillère à soupe de beurre de cacahuète'],
+    steps: ['Mixer tous les ingrédients au blender.', 'Mixer jusqu\'à obtenir une texture lisse.', 'Consommer de préférence après l\'entraînement.']
+  },
+  {
+    id: 'sh-seche', category: 'shaker', name: 'Shaker sèche', emoji: '🥤',
+    objectives: ['lose-fat', 'recomp'], diets: ['omnivore', 'vegetarian'],
+    allergens: ['lactose'],
+    kcal: 180, protein: 30, carbs: 10, fat: 2, fiber: 2,
+    prepTime: 5, difficulty: 'easy',
+    ingredients: ['30 g de whey isolate', '250 ml d\'eau ou de lait écrémé', 'Glaçons', 'Quelques fruits rouges'],
+    steps: ['Placer tous les ingrédients dans le shaker.', 'Secouer ou mixer 20 secondes.', 'Servir immédiatement.']
+  }
+];

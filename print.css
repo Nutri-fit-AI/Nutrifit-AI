@@ -1,0 +1,46 @@
+/* ==========================================================================
+   PRINT.CSS
+   Feuille de style appliquée uniquement à l'impression (media="print").
+   Le JavaScript remplit #printArea avec le contenu à imprimer (bilan,
+   recette ou liste de courses) puis déclenche window.print(). Cette
+   approche permet d'exporter en PDF sans dépendance externe : il suffit
+   de choisir "Enregistrer en PDF" dans la boîte de dialogue d'impression.
+   ========================================================================== */
+
+@media print {
+  /* On masque toute l'interface applicative… */
+  body * { visibility: hidden; }
+
+  /* …et on ne révèle que la zone imprimable, remplie dynamiquement par JS */
+  #printArea, #printArea * { visibility: visible; }
+  #printArea {
+    display: block !important;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    color: #000;
+    background: #fff;
+    font-family: 'Inter', Arial, sans-serif;
+    padding: 20px;
+  }
+
+  #printArea h1 { font-size: 22px; margin-bottom: 4px; }
+  #printArea h2 { font-size: 16px; margin: 18px 0 8px; border-bottom: 1px solid #999; padding-bottom: 4px; }
+  #printArea .print-meta { color: #444; font-size: 12px; margin-bottom: 16px; }
+
+  #printArea table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; }
+  #printArea th, #printArea td { border: 1px solid #ccc; padding: 6px 8px; font-size: 12px; text-align: left; }
+  #printArea th { background: #f0f0f0; }
+
+  #printArea ul, #printArea ol { padding-left: 18px; font-size: 13px; }
+  #printArea li { margin-bottom: 4px; color: #000; }
+
+  #printArea .print-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  #printArea .print-stat {
+    border: 1px solid #ccc; border-radius: 6px; padding: 8px 12px; min-width: 100px;
+  }
+  #printArea .print-stat b { display: block; font-size: 16px; }
+  #printArea .print-stat span { font-size: 11px; color: #555; }
+
+  @page { margin: 16mm; }
+}

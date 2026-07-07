@@ -1,0 +1,67 @@
+/* ==========================================================================
+   RESPONSIVE.CSS
+   Adaptation tablette / mobile. Les classes .mobile-only et .desktop-only
+   permettent de basculer certains éléments selon la taille d'écran.
+   ========================================================================== */
+
+.mobile-only { display: none; }
+
+/* ---------------------------------------------------------------------
+   TABLETTE — jusqu'à 1024px
+   --------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .ring-grid { grid-template-columns: repeat(2, 1fr); }
+  .macro-grid { grid-template-columns: repeat(3, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+  .content { padding: var(--sp-6); }
+  .recipe-modal__macro-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------------------------------------------------------------------
+   MOBILE — jusqu'à 768px : sidebar devient un tiroir plein écran
+   --------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .mobile-only { display: inline-flex; }
+
+  .app { grid-template-columns: 1fr; }
+
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: min(300px, 82vw);
+    transform: translateX(-100%);
+    transition: transform var(--transition-med);
+    z-index: 50;
+  }
+  .sidebar.is-open { transform: translateX(0); }
+  .sidebar-overlay.is-open { display: block; }
+
+  .topbar { padding: 0 var(--sp-4); gap: var(--sp-2); }
+  .topbar__title p { display: none; }
+  .topbar__stats { display: none !important; }
+
+  .content { padding: var(--sp-4); }
+
+  .ring-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+  .macro-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-grid { grid-template-columns: 1fr; }
+  .goal-grid { grid-template-columns: repeat(2, 1fr); }
+  .recipe-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--sp-3); }
+  .recipe-card__macros { grid-template-columns: repeat(2, 1fr); }
+  .shaker-row { grid-template-columns: 24px 1fr 70px 40px; gap: var(--sp-2); }
+  .tracking-meal-item { flex-wrap: wrap; }
+  .modal { padding: var(--sp-5); max-height: 92vh; }
+  .toast-container { left: var(--sp-4); right: var(--sp-4); bottom: var(--sp-4); }
+  .toast { width: 100%; }
+}
+
+/* ---------------------------------------------------------------------
+   TRÈS PETIT MOBILE — jusqu'à 420px
+   --------------------------------------------------------------------- */
+@media (max-width: 420px) {
+  .ring-grid { grid-template-columns: 1fr 1fr; }
+  .macro-grid { grid-template-columns: 1fr 1fr; }
+  .goal-grid { grid-template-columns: 1fr 1fr; }
+  .recipe-card__macros { grid-template-columns: repeat(2, 1fr); }
+  .toolbar-filters select { min-width: 0; flex: 1; }
+}

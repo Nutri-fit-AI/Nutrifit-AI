@@ -1,0 +1,92 @@
+/* ==========================================================================
+   VARIABLES.CSS
+   Design tokens de NutriFit AI : couleurs, typographies, espacements.
+   Concept : "console bio-énergétique" — fond quasi noir, accents verts
+   bio-luminescents, données présentées comme des lectures d'instruments.
+   Le thème clair/sombre est piloté par l'attribut [data-theme] sur <html>.
+   ========================================================================== */
+
+:root {
+  /* ---- Typographie -------------------------------------------------- */
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;   /* titres */
+  --font-body: 'Inter', 'Segoe UI', sans-serif;               /* texte courant */
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;       /* chiffres / data */
+
+  /* ---- Échelle d'espacement (base 4px) ------------------------------ */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* ---- Rayons & transitions ------------------------------------------ */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --ease: cubic-bezier(.4, 0, .2, 1);
+  --transition-fast: .18s var(--ease);
+  --transition-med: .32s var(--ease);
+
+  /* ---- Palette de marque (constante quel que soit le thème) --------- */
+  --brand-signal: #39ff88;       /* vert signal — accent principal */
+  --brand-signal-dim: #1db870;   /* vert profond — dégradés/secondaire */
+  --brand-signal-soft: #0f4d33;  /* vert assombri — fonds de badges */
+  --brand-warn: #ff6b4a;         /* corail — dépassement / alerte */
+  --brand-info: #4ac6ff;         /* bleu clair — information neutre */
+  --brand-gold: #ffcf5c;         /* jaune — mise en avant secondaire */
+
+  --sidebar-width: 260px;
+  --topbar-height: 72px;
+}
+
+/* ---------------------------------------------------------------------
+   THÈME SOMBRE (par défaut)
+   --------------------------------------------------------------------- */
+:root,
+[data-theme="dark"] {
+  --bg: #0a0f0c;
+  --bg-elevated: #0e1512;
+  --surface: #121a15;
+  --surface-hover: #172019;
+  --surface-raised: #182019;
+  --border: #223028;
+  --border-strong: #2c3d33;
+
+  --text-high: #eaf2ec;
+  --text-mid: #a9b6ad;
+  --text-low: #6d7a71;
+
+  --shadow-card: 0 1px 0 rgba(255,255,255,.02) inset, 0 10px 30px rgba(0,0,0,.35);
+  --glow-signal: 0 0 0 1px rgba(57,255,136,.25), 0 0 24px rgba(57,255,136,.12);
+  --overlay-bg: rgba(5, 8, 6, .72);
+}
+
+/* ---------------------------------------------------------------------
+   THÈME CLAIR
+   --------------------------------------------------------------------- */
+[data-theme="light"] {
+  --bg: #f3f6f3;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #eef3ee;
+  --surface-raised: #ffffff;
+  --border: #dfe6e0;
+  --border-strong: #cbd6cd;
+
+  --text-high: #10160f;
+  --text-mid: #4a5a4d;
+  --text-low: #7c8a7f;
+
+  --brand-signal: #0aa860;
+  --brand-signal-dim: #078c4d;
+  --brand-signal-soft: #d8f5e6;
+
+  --shadow-card: 0 1px 0 rgba(255,255,255,.6) inset, 0 8px 24px rgba(20,40,25,.08);
+  --glow-signal: 0 0 0 1px rgba(10,168,96,.25), 0 0 20px rgba(10,168,96,.10);
+  --overlay-bg: rgba(20, 30, 22, .45);
+}
